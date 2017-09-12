@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <%- include ../component/meta.ejs %>
+    <title>角色列表</title>
+    <!--chosen-->
+    <link rel="stylesheet" href="/js/chosen_v1.6.2/chosen.min.css">
+    <style>
+        .existMember {
+            line-height: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .confirmDelete {
+            line-height: 30px;
+            text-align: center;
+        }
+
+        .operation {
+            padding-left: 0;
+        }
+
+        .operation a {
+            margin-right: 10px;
+        }
+
+        #memberJs {
+            height: 200px;
+        }
+
+        /*模糊查询框*/
+        .chosen-single {
+            padding: 0 0 0 13px !important;
+            height: 34px !important;
+            border: 1px solid #ccc !important;
+            background: none !important;
+            background-clip: padding-box;
+            box-shadow: none !important;
+            line-height: 34px !important;
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <%- include ../component/left_side.ejs %>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <%- include ../component/header_section.ejs %>
+        <!-- header section end-->
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">权限管理</a>
+                </li>
+                <li class="active">
+                    角色列表
+                </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!--添加编辑弹框start-->
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+                         id="myModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="addForm">
+                                <div class="modal-header">
+                                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title">添加/编辑角色</h4>
+                                </div>
+                                <div class="modal-body clearfix">
+                                    <form class="form-horizontal" method="post" action="">
+                                        <div class="form-group" id="organization">
+                                            <label for="inputEmail1"
+                                                   class="col-lg-2 col-sm-2 control-label">所属机构</label>
+                                            <div class="col-lg-9">
+                                                <select name="dept" data-placeholder="请选择所属机构" id="dept"
+                                                        class="dept_select form-control m-bot15">
+                                                    <option value=""></option>
+                                                    <%
+                                                    var len = tree.length;
+                                                    for(var i = 0;i < len;i++){ %>
+                                                    <option value=<%= tree[i].id %>><%= tree[i].name %></option>
+                                                    <%
+                                                    }
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputEmail1"
+                                                   class="col-lg-2 col-sm-2 control-label">角色名称</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" id="JsName" class="form-control" name='name'
+                                                       placeholder="角色名称" required="true"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success save" id="addEdit">保存</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--添加编辑弹框end-->
+
+                    <!--查询用户是否使用删除角色弹框/删除弹框start-->
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+                         id="myModal2" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title">角色删除确认</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <p class="confirmDelete">
+                                        角色删除后，不可恢复。
+                                        是否确认删除？
+                                    </p>
+
+                                    <p class="existMember">
+                                        以下机构用户正在使用所选角色，请解除关联后再试。</p>
+
+                                    <div class="memberJs">
+                                        <select id="memberJs" class="form-control m-bot15" multiple name="pattern">
+
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success save">确认</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--删除弹框end-->
+
+                    <!--复制角色弹框start-->
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+                         id="copyModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="addForm">
+                                <div class="modal-header">
+                                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title">复制角色</h4>
+                                </div>
+                                <div class="modal-body clearfix">
+                                    <form class="form-horizontal" method="post" action="">
+                                        <div class="form-group">
+                                            <label for="" class="col-lg-2 col-sm-2 control-label">所属机构</label>
+                                            <div class="col-lg-9">
+                                                <select name="dept" data-placeholder="请选择所属机构" id="dept1"
+                                                        class="dept_select form-control m-bot15">
+                                                    <option value=""></option>
+                                                    <%
+                                                    var len = tree.length;
+                                                    for(var i = 0;i < len;i++){ %>
+                                                    <option value=<%= tree[i].id %>><%= tree[i].name %></option>
+                                                    <%
+                                                    }
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputEmail1"
+                                                   class="col-lg-2 col-sm-2 control-label">角色名称</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" id="copyRoleName" class="form-control" name='name'
+                                                       placeholder="角色名称" required="true"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" id="copySave">保存</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--复制角色弹框end-->
+
+                    <form action="/role/list" method="post" class="roleList">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                <div class="col-sm-9 operation">
+                                    <a href="#myModal" data-toggle="modal" class="btn btn-primary" id="add">
+                                        添加角色
+                                    </a>
+                                    <a href="/role/power" class="btn btn-success">
+                                        功能库
+                                    </a>
+                                    <a href="#myModal2" data-toggle="modal" class="btn btn-danger  Delete">
+                                        删除
+                                    </a>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="searchKey" name="searchKey"
+                                           maxlength="20" value="<%= role_name %>" placeholder="按照角色名称查询">
+                                    <span class="input-group-btn">
+                                        <button type="button" id="searchBtn" class="btn btn-default"><i
+                                                    class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+
+                            </header>
+                            <div class="panel-body">
+                                <section id="no-more-tables">
+                                    <table class="table table-bordered table-striped table-condensed cf">
+                                        <thead class="cf">
+                                        <tr class="text-center">
+                                            <th class="text-center"><input type="checkbox" class="all-item"></th>
+                                            <th class="text-center">角色名</th>
+                                            <th class="text-center">角色编码</th>
+                                            <th class="text-center">创建者</th>
+                                            <th class="text-center">所属公司</th>
+                                            <th class="text-center">创建日期</th>
+                                            <th class="text-center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <% for (var i = 0; i < rows.length; i++){ %>
+                                        <tr class="text-center">
+                                            <% if(rows[i].name == '超级管理员' && rows[i].id == '101030000JS01'){ %>
+                                            <td class="text-center"></td>
+                                            <% }else{ %>
+                                            <td class="text-center"><input name="item" type="checkbox"
+                                                                           value="<%= rows[i].id %>"
+                                                                           data="<%= rows[i].company_name %>"></td>
+                                            <% } %>
+                                            <td class="text-center" data-title="角色名"><%= rows[i].name %></td>
+                                            <td class="text-center" data-title="角色编码"><%= rows[i].id %></td>
+                                            <td class="text-center" data-title="创建者"><%= rows[i].realname %></td>
+                                            <td class="text-center" data-title="所属公司"><%= rows[i].company_name %></td>
+                                            <td class="text-center"
+                                                data-title="创建日期"><%= rows[i].ctime ? moment(rows[i].ctime).format('YYYY-MM-DD HH:mm:ss') : '' %></td>
+                                            <td class="text-center" data-title="操作">
+                                                <a href="/role/power/<%= rows[i].id %>/<%= rows[i].name %>/<%= rows[i].operator %>"
+                                                   data-toggle="modal" class="btn btn-xs btn-info rolePower"
+                                                   data-companyCode="<%= rows[i].company_code %>"
+                                                   data-roleID="<%= rows[i].id %>">
+                                                    功能
+                                                </a>
+                                                <% if(rows[i].name == '超级管理员' && rows[i].id == '101030000JS01'){ %>
+                                                <% }else{ %>
+                                                <a href="#myModal" data-toggle="modal"
+                                                   class="btn btn-xs btn-success Edit"
+                                                   data=<%= rows[i].id %>,<%= rows[i].name %>,<%= rows[i].company_code %>>
+                                                    编辑
+                                                </a>
+                                                <a href="#copyModal" data-toggle="modal"
+                                                   class="btn btn-xs btn-warning copy" data-roleId="<%= rows[i].id %>">
+                                                    复制
+                                                </a>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                </section>
+                                <%- include ../component/pager.ejs %>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <%- include ../component/footer.ejs %>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+<%- include ../component/bottom.ejs %>
+<!--chroose-->
+<script src="/js/chosen-jquery/chosen.jquery.js"></script>
+<script>
+    //模糊查询
+    $(function () {
+        $('.dept_select').chosen();
+        $('.chosen-container').css({"width": "100%"});    //模糊查询框的宽度
+    });
+    $(function () {
+        //分页
+        $("nav .pageTab").click(function () {
+            var _form = $(this).closest('form');
+            _form.find('input[name=pageNo]').val($(this).attr('data-page'));
+            _form.submit();
+        });
+
+        //全选
+        $('.all-item').click(function () {
+            if ($(this).is(':checked')) {
+                $('input[name="item"]').prop("checked", true);
+            } else {
+                $('input[name="item"]').prop("checked", false);
+            }
+        })
+
+        //点击搜索查询
+        $("#searchBtn").click(function () {
+            var _form = $(this).closest('form');
+            _form.find('input[name=pageNo]').val(1);
+            _form.submit();
+        });
+
+        //点击添加
+        $('#add').click(function () {
+            $('#organization').show();   //显示所属机构
+            $('#JsName').val('');        //清空角色名称
+            $('#myModal .modal-title').html('添加角色');
+
+            //点击添加保存
+            $('#addEdit').click(function () {
+                var company_code = $('#dept').val();
+                if (!company_code) {
+                    swal("亲，请选择公司", "", "error");
+                    return false;
+                }
+                if ($.trim($('#JsName').val()) == '') {
+                    swal("亲，请输入角色名称", "", "error");
+                    return false;
+                }
+                add_Edit('/role/add', '', company_code, (result) => {
+                    if (result.status == 200) {
+                        $('#myModal').hide();
+                        swal("添加成功！", "Good :) 1秒后刷新", "success");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1200)
+                    } else if (result.status == 404) {
+                        swal("添加失败！", "该角色已存在!", "error")
+                    } else if (result.status == 500) {
+                        swal("添加失败！", "服务器错误!", "error")
+                    } else if (result.status == 300) {
+                        swal("添加失败！", result.msg, "error")
+                    }
+                })
+            })
+        })
+
+        //点击编辑
+        $('.Edit').click(function () {
+            $('#organization').hide();    //隐藏所属机构
+            var role_id = $(this).attr('data').split(',')[0];
+            $('#myModal .modal-title').html('编辑角色');
+            $('#myModal input[name="name"]').val($(this).attr('data').split(',')[1]);
+//            $('#myModal input[name="company_code"]').val($(this).attr('data').split(',')[2]);
+            var company_code = $(this).attr('data').split(',')[2];
+
+            //点击编辑保存
+            $('#addEdit').click(function () {
+                if ($.trim($('#JsName').val()) == '') {
+                    swal("亲，请输入角色名称", "", "error");
+                    return false;
+                }
+                add_Edit('/role/edit', role_id, company_code, (result) => {
+                    if (result.status == 200) {
+                        $('#myModal').hide();
+                        swal("修改成功！", "Good :) 1秒后刷新", "success");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1200);
+                    } else if (result.status == 500) {
+                        swal("修改失败！", "服务器错误!", "error")
+                    } else if (result.status == 300) {
+                        swal("修改失败！", result.msg, "error")
+                    }
+                })
+            })
+        })
+
+        //点击删除
+        $('.Delete').click(function () {
+            var $item = $('input[name="item"]:checked');  //name是item的多选框是否有选中的
+            var arr = [];
+            $item.each(function () {
+                arr.push($(this).val());
+            });
+
+            var id = arr.join(',');    //所有被选角色的id，多个用逗号分隔
+            if (!id) {
+                swal("亲，请选择删除项", "", "error");
+                return false;
+            }
+
+            $.ajax({     //删除之前查询是否有成员在使用该角色
+                url: '/role/existMember',
+                data: {id: id},
+                type: 'post',
+                async: true,
+                success: function (result) {
+                    if (result.data.length > 0) {     //有成员使用该角色，弹出使用该角色的成员，隐藏确定删除的按钮
+                        $('.existMember').css('display', 'block');
+                        $('.memberJs').css('display', 'block');
+                        $('.confirmDelete').css('display', 'none');
+                        $('#myModal2 .save').css('display', 'none');
+                        $('#memberJs').html('');
+                        var str = '';
+                        for (var i = 0; i < result.data.length; i++) {
+                            str += '<option value="' + i + '"><span>' + result.data[i].company_name + '---' + result.data[i].realname + '</option>';
+                        }
+                        $('#memberJs').html(str);
+                    } else {     //没有成员使用该角色，弹出确定删除的确定提问，显示确定删除的按钮
+                        $('#memberJs').html('');
+                        $('.confirmDelete').css('display', 'block');
+                        $('#myModal2 .save').show();
+                        $('.existMember').css('display', 'none');
+//                        $('.memberJs').css('display', 'none');
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    swal("服务器错误！", textStatus || errorThrown, "error");
+                }
+            });
+
+            //点击确定删除
+            $('#myModal2 .save').click(function () {
+                $.ajax({
+                    url: '/role/delete',
+                    data: {id: id},
+                    type: 'post',
+                    async: true,
+                    success: function (result) {
+                        if (result.status == 200) {
+                            $('#myModal2').hide();
+                            swal("删除成功！", "1秒后刷新", "success");
+                            setTimeout(function () {
+                                location.reload()
+                            }, 1200);
+                        } else if (result.status == 500) {
+                            swal("删除失败！", "服务器错误!", "error")
+                        } else if (result.status == 300) {
+                            swal("删除失败！", result.msg, "error")
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        swal("服务器错误！", textStatus || errorThrown, "error");
+                    }
+                });
+            })
+        })
+
+        //点击复制角色
+        $('.copy').click(function () {
+            var roleId = $(this).attr('data-roleId');
+            $('#copySave').click(function () {
+                var companyCode = $('#dept1').val();
+                var roleName = $('#copyRoleName').val().trim();
+                if (!companyCode) {
+                    swal("亲，请选择公司", "", "error");
+                    return false;
+                }
+                if (!roleName) {
+                    swal("亲，请填写角色名", "", "error");
+                    return false;
+                }
+                swal({
+                        title: "你确定提交吗？",
+                        text: '',
+                        type: "info",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true,
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                    },
+                    function () {
+                        $.ajax({
+                            url: '/role/copyRole',
+                            data: {companyCode: companyCode, roleName: roleName, roleId: roleId},
+                            type: 'post',
+                            async: true,
+                            success: function (result) {
+                                if (result.status == 200) {
+                                    $('#copyModal').hide();
+                                    swal("添加成功！", "Good :) 1秒后刷新", "success");
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 1200)
+                                } else if (result.status == 404) {
+                                    swal("添加失败！", "该角色已存在!", "error")
+                                } else {
+                                    swal("添加失败！", "服务器错误!", "error")
+                                }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                swal("服务器错误！", textStatus || errorThrown, "error");
+                            }
+                        });
+                    });
+            })
+        })
+
+
+        //封装   点击弹出模态框中的保存
+        function add_Edit(url, role_id, company_code, cb) {
+            swal({
+                    title: "你确定提交吗？",
+                    text: '',
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                },
+                function () {
+                    $.ajax({
+                        url: url,
+                        data: {id: role_id, name: $.trim($('#JsName').val()), company_code: company_code},
+                        type: 'post',
+                        async: true,
+                        success: function (result) {
+                            cb(result)
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            swal("服务器错误！", textStatus || errorThrown, "error");
+                        }
+                    });
+                });
+
+        }
+    })
+
+
+</script>
+
+</body>
+</html>
+

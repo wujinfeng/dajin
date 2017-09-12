@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <%- include ../component/meta.ejs %>
+    <title>角色功能</title>
+    <style>
+        .power_type {
+            display: none;
+        }
+
+        .power_btn {
+            width: 44%;
+            float: left;
+            margin-bottom: 15px;
+        }
+
+        .left-header {
+            clear: both;
+            border-radius: 3px;
+            /*padding:5px 0;*/
+        }
+
+        .left-header li a {
+            color: #7a7676;
+        }
+
+        .platform_add, .platform_del {
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        .role_power_alert {
+            height: 350px;
+            overflow: auto;
+        }
+
+        .clearfloat {
+            clear: both;
+        }
+
+        .leftsection {
+            margin-bottom: 20px;
+        }
+
+        .modal_left_ul {
+            border-bottom: 0;
+        }
+
+        .right {
+            float: right;
+        }
+
+        @media screen and (max-width: 1080px) and (min-width: 768px) {
+            .power_btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <%- include ../component/left_side.ejs %>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <%- include ../component/header_section.ejs %>
+        <!-- header section end-->
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">权限管理</a>
+                </li>
+                <li>
+                    <a href="/role/list">角色列表</a>
+                </li>
+                <li id="role_name" class="active">
+                    【<%= name %>】
+                </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            功能配置
+                        </header>
+                        <div class="panel-body role_id" data="<%= role_id %>">
+                            <div class="faultDiv">
+                                <!--添加功能弹框start-->
+                                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+                                     id="myModal" class="modal fade" style="display: none;">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">添加功能库</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!--功能列表-->
+                                                <section class="col-sm-2 leftsection">
+                                                    <header class="custom-tab left-header">
+                                                        <ul class="nav nav-tabs modal_left_ul">
+
+                                                        </ul>
+                                                    </header>
+                                                </section>
+                                                <div class="col-sm-10  role_power_alert">
+                                                    <section id="no-more-tables">
+                                                        <table class="table table-bordered table-striped table-condensed cf">
+                                                            <thead class="cf">
+                                                            <tr class="text-center">
+                                                                <th class="text-center"><input type="checkbox"
+                                                                                               class="all-Item"/></th>
+                                                                <th class="text-center">权限Id</th>
+                                                                <th class="text-center">模块名字</th>
+                                                                <th class="text-center">功能名字</th>
+                                                                <th class="text-center">跳转地址</th>
+                                                                <th class="power_type text-center">权限类型</th>
+                                                                <th class="text-center">平台系统</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody class="power_alert_content">
+
+                                                            </tbody>
+                                                        </table>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer clearfloat">
+                                                <button type="button" class="btn btn-success save">保存
+                                                </button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--添加功能弹框end-->
+                                <section class="col-sm-3 leftsection">
+                                    <% if(name == '超级管理员' && role_id == '101030000JS01'){ %>
+
+                                    <% }else{ %>
+                                    <a href="#myModal" data-toggle="modal" class="btn btn-primary power_btn" id="add"
+                                       data-type="<%= user.systems %>">
+                                        添加功能
+                                    </a>
+                                    <a href="#myModal2" data-toggle="modal" class="btn btn-danger power_btn right"
+                                       id="del">
+                                        移除功能
+                                    </a>
+                                    <% } %>
+                                    <header class="custom-tab left-header">
+                                        <ul class="nav nav-tabs">
+                                            <% for(var i = 0;i < platform.length;i++){ %>
+                                            <li class="panel-li platform_del <%= curPlatform == platform[i] ? 'active' : '' %>"
+                                                data="<%= platform[i] %>"
+                                                del="/role/platform?paltformname=<%= platform[i] %>&role_id=<%= role_id %>&name=<%= name %>">
+                                                <a href="#home2" data-toggle="tab">
+                                                    <span>
+                                                        <% for (var j = 0;j < platformsName.length;j++){
+                                                        if(platformsName[j].platformName != '计费系统'){
+                                                        if(platformsName[j].platform == platform[i]){ %>
+                                                        <%= platformsName[j].platformName %>
+                                                        <% }}} %>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                        </ul>
+                                    </header>
+                                </section>
+                                <div class="col-sm-9">
+                                    <section id="no-more-tables">
+                                        <table class="table table-bordered table-striped table-condensed cf">
+                                            <thead class="cf">
+                                            <tr class="text-center">
+                                                <th class="text-center"><input type="checkbox" class="all-item"/></th>
+                                                <th class="text-center">权限Id</th>
+                                                <th class="text-center">模块名字</th>
+                                                <th class="text-center">功能名字</th>
+                                                <th class="text-center">跳转地址</th>
+                                                <th class="power_type text-center">权限类型</th>
+                                                <th class="text-center">平台系统</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <% if(rows.length > 0){ %>
+                                            <% for (var i = 0; i < rows.length; i++){ %>
+                                            <tr class="text-center">
+                                                <td class="text-center"><input type="checkbox" name="item"
+                                                                               data="<%= rows[i].id %>"
+                                                                               value="<%= rows[i].id %>"/></td>
+                                                <td class="text-center" data-title="权限Id"><%= rows[i].id %></td>
+                                                <td class="text-center" data-title="模块名字"><%= rows[i].module %></td>
+                                                <td class="text-center" data-title="功能名字"><%= rows[i].name %></td>
+                                                <td class="text-center" data-title="跳转地址"><%= rows[i].url %></td>
+                                                <td data-title="权限类型"
+                                                    class="power_type text-center"><%= rows[i].type %></td>
+                                                <td data-title="平台系统" class="platform text-center"
+                                                    data="<%= rows[i].platform %>"><%= rows[i].platform %></td>
+                                            </tr>
+                                            <% } %>
+                                            <% } %>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <%- include ../component/footer.ejs %>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+<%- include ../component/bottom.ejs %>
+<script>
+    //移除全选
+    $('.all-item').click(function () {
+        if ($(this).is(':checked')) {
+            $('input[name="item"]').prop("checked", true);
+        } else {
+            $('input[name="item"]').prop("checked", false);
+        }
+    })
+    //添加全选
+    $('.all-Item').click(function () {
+        if ($(this).is(':checked')) {
+            $('input[name="Item"]').prop("checked", true);
+        } else {
+            $('input[name="Item"]').prop("checked", false);
+        }
+    })
+
+    //获取role_id
+    var role_id = $('.role_id').attr('data');
+
+
+    //点击页面中的左边导航
+    $('.platform_del').click(function () {
+        location.href = $(this).attr('del');
+    })
+    //弹出框中de 左边导航
+    $(document).on('click', '.platform_add', function () {
+        $('input[name="Item"]').prop("checked", false);     //清除多选框被选中的状态
+        $('.all-Item').prop("checked", false);//清除多选框被选中的状态
+
+        //查询各个平台系统下的功能
+        $.ajax({
+            url: '/role/platform',
+            data: {role_id: role_id, paltformname: $(this).attr('data')},
+            type: 'post',
+            async: true,
+            success: function (result) {
+                if (result.status == 200) {
+                    console.log(result.isAdmin);
+                    $('.power_alert_content').html('');  //清除弹出的模态框中右边的内容
+                    var html = '';
+                    for (var i = 0; i < result.data.length; i++) {
+                        var singleData = result.data[i];
+                        if (result.isAdmin) {
+                            html +=
+                                '<tr class="text-center">' +
+                                '<td class="text-center"><input type="checkbox" name="Item"  value="' + singleData.id + '"/></td>' +
+                                '<td class="text-center" data-title="权限Id">' + singleData.id + '</td>' +
+                                '<td class="text-center" data-title="模块名字">' + singleData.module + '</td>' +
+                                '<td class="text-center" data-title="功能名字">' + singleData.name + '</td>' +
+                                '<td class="text-center" data-title="跳转地址">' + singleData.url + '</td>' +
+                                '<td data-title="权限类型" class="power_type text-center">' + singleData.type + '</td>' +
+                                '<td data-title="平台系统" class="platform text-center">' + singleData.platform + '</td>' +
+                                '</tr>';
+                        } else {
+                            if (singleData.id != '101' && singleData.id != '104' && singleData.id != '110' && singleData.id != '111' && singleData.id != '121') {
+                                html +=
+                                    '<tr class="text-center">' +
+                                    '<td class="text-center"><input type="checkbox" name="Item"  value="' + singleData.id + '"/></td>' +
+                                    '<td class="text-center" data-title="权限Id">' + singleData.id + '</td>' +
+                                    '<td class="text-center" data-title="模块名字">' + singleData.module + '</td>' +
+                                    '<td class="text-center" data-title="功能名字">' + singleData.name + '</td>' +
+                                    '<td class="text-center" data-title="跳转地址">' + singleData.url + '</td>' +
+                                    '<td data-title="权限类型" class="power_type text-center">' + singleData.type + '</td>' +
+                                    '<td data-title="平台系统" class="platform text-center">' + singleData.platform + '</td>' +
+                                    '</tr>';
+                            }
+                        }
+                    }
+                    $('.power_alert_content').html(html);
+                } else {
+                    swal("查询功能列表失败！", "服务器错误", "error");
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                swal("服务器错误！", textStatus || errorThrown, "error");
+            }
+        });
+    })
+
+
+    //添加
+    $('#add').click(function () {
+        $.ajax({       //获取没有添加的功能所属的  所有平台系统
+            url: '/role/NoPower',
+            data: {role_id: role_id},
+            type: 'post',
+            async: true,
+            success: function (result) {
+                if (result.status == 200) {
+                    $('.modal_left_ul').html('');  //清除弹出模态框左边的导航内容
+                    var html = '',
+                        Platform = result.data,
+                        platformsName = result.platformsName,
+                        platformName = '',
+                        arr = [];
+                    for (var i = 0; i < Platform.length; i++) {
+                        for (var j = 0; j < platformsName.length; j++) {
+                            if (platformsName[j].platformName != '计费系统') {
+                                if (platformsName[j].platform == Platform[i].platform) {
+                                    platformName = platformsName[j].platformName;
+                                }
+                            }
+                        }
+                        if (arr.indexOf(platformName) > -1) {     //判断显示的平台系统有没有重复的
+                            continue;
+                        }
+                        arr.push(platformName)
+                        html += ' <li class="panel-li platform_add"  data="' + Platform[i].platform + '"><a href="#" data-toggle="tab">' + platformName + '</a></li>'
+                    }
+                    $('.modal_left_ul').html(html);
+                } else {
+                    swal("查询功能列表失败！", "服务器错误", "error");
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                swal("服务器错误！", textStatus || errorThrown, "error");
+            }
+        });
+    })
+    //点击保存
+    $('.save').click(function () {
+        if ($('input[name="Item"]').is(':checked') == true) {    //判断有没有选中某个功能
+            var $item = $('input[name="Item"]:checked');
+            var arr = [];
+            $item.each(function () {
+                arr.push($(this).val());
+            });
+            var id = arr.join(',');
+
+            swal({
+                    title: "你确定提交吗？",
+                    text: '',
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                },
+                function () {
+                    $.ajax({
+                        url: '/role/rolePower',
+                        data: {power_id: id, role_id: role_id},
+                        type: 'post',
+                        async: true,
+                        success: function (result) {
+                            if (result.status == 200) {
+                                $('#myModal').hide();
+                                swal("添加成功！", "Good :) 1秒后刷新", "success");
+                                setTimeout(function () {
+                                    location.reload()
+                                }, 1200)
+                            } else if (result.status == 404) {
+                                swal("添加失败！", "该功能已存在!", "error")
+                            } else if (result.status == 500) {
+                                swal("添加失败！", "服务器错误", "error")
+                            } else if (result.status == 300) {
+                                swal("添加失败！", result.msg, "error")
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            swal("服务器错误！", textStatus || errorThrown, "error");
+                        }
+                    });
+                });
+
+        } else {
+            swal("添加失败！", "请选择要添加的功能!", "error")
+        }
+    })
+
+
+    //移除
+    $('#del').click(function () {
+        if ($('input[name="item"]').is(':checked') == true) {
+            var $item = $('input[name="item"]:checked');
+            var arr = [];
+            $item.each(function () {
+                arr.push($(this).val());
+            });
+
+            var id = arr.join(',');
+
+            swal({
+                    title: "你确定提交吗？",
+                    text: '',
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                },
+                function () {
+                    $.ajax({
+                        url: '/role/powerDelete',
+                        data: {power_id: id, role_id: role_id},
+                        type: 'post',
+                        async: true,
+                        success: function (result) {
+                            if (result.status == 200) {
+                                $('#myModal2').hide();
+                                swal("删除成功！", "1秒后刷新", "success");
+                                setTimeout(function () {
+                                    location.reload()
+                                }, 1200);
+                            } else if (result.status == 500) {
+                                swal("删除失败！", "服务器错误!", "error")
+                            } else if (result.status == 300) {
+                                swal("删除失败！", result.msg, "error")
+                            } else if (result.status == 400) {
+                                swal("删除失败！", result.msg, "error")
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            swal("服务器错误！", textStatus || errorThrown, "error");
+                        }
+                    });
+                });
+
+        } else {
+            swal("请选择要移出的功能", '', "error");
+        }
+    })
+
+
+</script>
+</body>
+</html>

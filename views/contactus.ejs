@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title> 联系我们-武汉问鼎机电工程有限公司</title>
+    <meta name="keywords" content="中央空调,家用中央空调,中央空调什么牌子好,大金空调怎么样,武汉大金空调价格,武汉大金空调经销商,武汉大金空调VRV-N价格,武汉大金空调一拖四,武汉大金空调一拖五价格,大金空调安装注意事项,武汉大金空调售后电话,大金空调故障代码，武汉大金空调售后维修">
+    <meta name="description" content="武汉问鼎机电工程有限公司创立于2007年，是湖北武汉一家专业从事提供暖通设计与安装的工程型公司，设有武汉大金空调专卖店，专业为湖北武汉客户提供大金空调免费设计报价，武汉大金空调系统、新风系统及采暖系统的安装等服务。武汉大金空调设计安装，就找问鼎机电。服务热线027-84669689">
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=5x1ICl2eFYmGQXUloVS66hLlSB2BugLM"></script>
+    <%- include component/meta.ejs %>
+</head>
+
+<body>
+<div class="container">
+    <%- include component/headerDiv.ejs %>
+
+    <div class="banner">
+        <div class="images">
+            <div style="background:url(UpFiles/include/image/20160512/201605121026007272.jpg) center center no-repeat; height:220px;"></div>
+        </div>
+    </div>
+    <div class="index-content">
+        <div class="left">
+            <div class="dh">
+                <ul>
+
+                </ul>
+            </div>
+            <div class="img"><a href="freeoffer.html"><img src="./contact_files/20150618114554555455.jpg"></a></div>
+            <div class="img"><a href="contactus.html"><img src="./contact_files/20150618114595029502.jpg"></a></div>
+        </div>
+
+        <div class="right">
+            <div class="mian">
+                <div class="title">
+                   <!-- <span>您当前位置：<a href="">首页</a> &gt;&gt; <a
+                        href="contactus.html">联系我们</a> &gt;&gt;</span>-->
+                    联系我们 <i>Contact us</i>
+                </div>
+                <div class="box">
+                    <h3>武汉问鼎机电工程有限公司</h3>
+                    <p>销售热线：15972077912（罗）13659828057（姚）</p>
+                    <p>售后电话：400-820-1081 / 027-83607655</p>
+                    <p>服务邮箱：daikin_wh@qq.com</p>
+                    <p>
+                        汉阳展厅：武汉汉阳江城大道绿地中央广场1层18-19号<br>
+                        电 &nbsp; &nbsp; &nbsp;话：027-84669689
+                    </p>
+                    <p>
+                        设计中心：武汉硚口区古田二路汇丰企业总部6楼 &nbsp; &nbsp; &nbsp;&nbsp;<br>
+                        总部联系电话：027-83607655
+                    </p>
+                    <br>
+
+                    <div id="dituzb" style="display:none">114.202295,30.610474</div>
+                    <!--百度地图容器-->
+                    <div id="dituContent" style="height: 450px; ">
+                    </div>
+
+                    <script type="text/javascript">
+                        var dituzb = document.getElementById('dituzb').innerHTML;
+                        var arrditu = dituzb.split(",");
+                        var ditu1 = arrditu[0];
+                        var ditu2 = arrditu[1];
+
+                        //创建和初始化地图函数：
+                        function initMap() {
+                            createMap();//创建地图
+                            setMapEvent();//设置地图事件
+                            addMapControl();//向地图添加控件
+                            addMarker();//向地图中添加marker
+                        }
+
+                        //创建地图函数：
+                        function createMap() {
+                            var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+                            var point = new BMap.Point(ditu1, ditu2);//定义一个中心点坐标
+                            map.centerAndZoom(point, 15);//设定地图的中心点和坐标并将地图显示在地图容器中
+                            window.map = map;//将map变量存储在全局
+                        }
+
+                        //地图事件设置函数：
+                        function setMapEvent() {
+                            map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+                            map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+                            map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+                            map.enableKeyboard();//启用键盘上下左右键移动地图
+                        }
+
+                        //地图控件添加函数：
+                        function addMapControl() {
+                            //向地图中添加缩放控件
+                            var ctrl_nav = new BMap.NavigationControl({
+                                anchor: BMAP_ANCHOR_TOP_LEFT,
+                                type: BMAP_NAVIGATION_CONTROL_LARGE
+                            });
+                            map.addControl(ctrl_nav);
+                            //向地图中添加缩略图控件
+                            var ctrl_ove = new BMap.OverviewMapControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, isOpen: 1});
+                            map.addControl(ctrl_ove);
+                            //向地图中添加比例尺控件
+                            var ctrl_sca = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT});
+                            map.addControl(ctrl_sca);
+                        }
+
+                        //标注点数组
+                        var markerArr = [{
+                            title: "&nbsp;&nbsp;&nbsp;&nbsp;武汉问鼎机电工程有限公司 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+                            content: "地址：武汉市古田二路汇丰企业总部 3-B602-2室,电话：027-83607655",
+                            point: ditu1 + "|" + ditu2,
+                            isOpen: 1,
+                            icon: {w: 23, h: 25, l: 46, t: 21, x: 9, lb: 12}
+                        }
+                        ];
+                        //创建marker
+                        function addMarker() {
+                            for (var i = 0; i < markerArr.length; i++) {
+                                var json = markerArr[i];
+                                var p0 = json.point.split("|")[0];
+                                var p1 = json.point.split("|")[1];
+                                var point = new BMap.Point(p0, p1);
+                                var iconImg = createIcon(json.icon);
+                                var marker = new BMap.Marker(point, {icon: iconImg});
+                                var iw = createInfoWindow(i);
+                                var label = new BMap.Label(json.title, {"offset": new BMap.Size(json.icon.lb - json.icon.x + 10, -20)});
+                                marker.setLabel(label);
+                                map.addOverlay(marker);
+                                label.setStyle({
+                                    borderColor: "#808080",
+                                    color: "#333",
+                                    cursor: "pointer"
+                                });
+
+                                (function () {
+                                    var index = i;
+                                    var _iw = createInfoWindow(i);
+                                    var _marker = marker;
+                                    _marker.addEventListener("click", function () {
+                                        this.openInfoWindow(_iw);
+                                    });
+                                    _iw.addEventListener("open", function () {
+                                        _marker.getLabel().hide();
+                                    })
+                                    _iw.addEventListener("close", function () {
+                                        _marker.getLabel().show();
+                                    })
+                                    label.addEventListener("click", function () {
+                                        _marker.openInfoWindow(_iw);
+                                    })
+                                    if (!!json.isOpen) {
+                                        label.hide();
+                                        _marker.openInfoWindow(_iw);
+                                    }
+                                })()
+                            }
+                        }
+                        //创建InfoWindow
+                        function createInfoWindow(i) {
+                            var json = markerArr[i];
+                            var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>" + json.content + "</div>");
+                            return iw;
+                        }
+                        //创建一个Icon
+                        function createIcon(json) {
+                            var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w, json.h), {
+                                imageOffset: new BMap.Size(-json.l, -json.t),
+                                infoWindowOffset: new BMap.Size(json.lb + 5, 1),
+                                offset: new BMap.Size(json.x, json.h)
+                            })
+                            return icon;
+                        }
+
+                        initMap();//创建和初始化地图
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include component/footer.ejs%>
+</body>
+</html>

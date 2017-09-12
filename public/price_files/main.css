@@ -1,0 +1,23 @@
+@import url(skitter.styles.css);
+
+.tables{ padding:10px 40px 0 20px}
+.tables .h1{ font:bold 12px/30px simsun; color:#f00;}
+.title1 span{ font:bold 14px/30px simsun; background:url(../images/dot.gif) no-repeat left center; padding:0 0 0 20px;}
+.tables table{border-collapse:collapse; border-spacing:0;}
+.tables td input{ vertical-align:middle; margin:3px 7px 3px 3px;}
+.tables td img{ vertical-align:middle;}
+.tables th{ font-size:14px; text-align:left; color:#333}
+.bordb{ display:none;}
+.bordb th,.bordb1 th{ border-bottom:1px dotted #ccc;}
+.bordb td,.bordb1 td{ border-bottom:1px dotted #ccc; vertical-align:top}
+.bordb input,.bordb1 input{ margin:3px 7px 3px 3px;}
+.bordb dl{ float:left; width:50%; margin:0 0 10px;}
+.bordb dl dt{ font-weight:bold;}
+.b{ display:none;}
+.ipt{ width:180px; border:1px solid #ccc; border-color:#ccc #eee #eee #ccc; height:18px; line-height:18px;}
+textarea.ipt{ margin:3px; width:300px; height:120px;}
+.subs{ background:#26a5ff; width:80px; height:28px; border:0; color:#fff; font:normal 14px/28px simsun; cursor:pointer; padding:0 3px 4px 0;}
+.jtcn,.djkt,.xfxt,.zyjs,.znjj{ display:none;}
+
+.tips{ margin:30px 0 0;}
+.tips dt{ font-weight:bold;}

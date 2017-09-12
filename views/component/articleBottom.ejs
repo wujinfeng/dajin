@@ -1,0 +1,113 @@
+<%- include footer.ejs%>
+
+<div id="bsPanelHolder">
+    <div id="bsPanel" style="display:none;">
+        <div class="bsTitle"><a style="float:left;height:20px;line-height:20px;font-weight:bold;" class="bsSiteLink" target="_blank" href="http://www.bshare.cn/intro">分享到</a><a class="bsSiteLink" style="cursor:pointer;float:right;height:20px;line-height:20px;font-weight:bold;" onclick="document.getElementById(&#39;bsPanel&#39;).style.display=&#39;none&#39;;">X</a>
+            <div class="bsClear"></div>
+        </div>
+        <div class="bsClear"></div>
+        <div style="padding-left:8px;background:#fff;*height:162px;">
+            <div class="bsLogoLink">
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="腾讯微博"
+                                                                                onclick="javascript:bShare.share(event,&#39;qqmb&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1512px;">腾讯微博</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="QQ空间"
+                                                                                onclick="javascript:bShare.share(event,&#39;qzone&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1566px;">QQ空间</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="人人网"
+                                                                                onclick="javascript:bShare.share(event,&#39;renren&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1674px;">人人网</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="手机"
+                                                                                onclick="javascript:bShare.share(event,&#39;shouji&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1710px;">手机</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="朋友网"
+                                                                                onclick="javascript:bShare.share(event,&#39;qqxiaoyou&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1548px;">朋友网</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="豆瓣网"
+                                                                                onclick="javascript:bShare.share(event,&#39;douban&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -540px;">豆瓣网</a>
+                </div>
+            </div>
+            <div class="bsLogoLink">
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="一键通"
+                                                                                onclick="javascript:bShare.share(event,&#39;bsharesync&#39;);return false;"
+                                                                                style="color:red;background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -288px;">一键通</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="手机快传"
+                                                                                onclick="javascript:bShare.share(event,&#39;189share&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//logos/s4/189share.png) no-repeat;">手机快传</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="新华微博"
+                                                                                onclick="javascript:bShare.share(event,&#39;xinhuamb&#39;);return false;"
+                                                                                style="color:red;background:url(http://static.bshare.cn/frame/images//logos/s4/xinhuamb.png) no-repeat;">新华微博</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="凤凰微博"
+                                                                                onclick="javascript:bShare.share(event,&#39;ifengmb&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -918px;">凤凰微博</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="开心网"
+                                                                                onclick="javascript:bShare.share(event,&#39;kaixin001&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1008px;">开心网</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="QQ好友"
+                                                                                onclick="javascript:bShare.share(event,&#39;qqim&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//logos/s4/qqim.png) no-repeat;">QQ好友</a>
+                </div>
+            </div>
+            <div class="bsLogoLink">
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="新浪微博"
+                                                                                onclick="javascript:bShare.share(event,&#39;sinaminiblog&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1728px;">新浪微博</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="搜狐微博"
+                                                                                onclick="javascript:bShare.share(event,&#39;sohuminiblog&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1800px;">搜狐微博</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="天涯"
+                                                                                onclick="javascript:bShare.share(event,&#39;tianya&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1890px;">天涯</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="网易微博"
+                                                                                onclick="javascript:bShare.share(event,&#39;neteasemb&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1332px;">网易微博</a>
+                </div>
+                <div class="bsLogo" onmouseover="javascript:this.className=&#39;bsLogoSel&#39;"
+                     onmouseout="javascript:this.className=&#39;bsLogo&#39;"><a href="javascript:;" title="微信"
+                                                                                onclick="javascript:bShare.share(event,&#39;weixin&#39;);return false;"
+                                                                                style="background:url(http://static.bshare.cn/frame/images//logos/s4/weixin.png) no-repeat;">微信</a>
+                </div>
+            </div>
+            <div class="bsClear"></div>
+        </div>
+        <div style="height:20px;line-height:20px;padding:0 8px;border-top:1px solid #e8e8e8;color:#666;background:#f2f2f2;">
+            <div class="buzzButton" style="float:left;">更多平台... <font style="font-weight:normal;">(133)</font></div>
+            <div id="bsPower" style="float:right;text-align:right;overflow:hidden;height:100%;"><a class="bsSiteLink"
+                                                                                                   style="font-size:10px;vertical-align:text-bottom;line-height:24px;cursor:pointer;"
+                                                                                                   href="http://www.bshare.cn/"
+                                                                                                   target="_blank"><span
+                            style="font-size:10px;vertical-align:text-bottom;"><span
+                                style="color:#f60;">b</span>Share</span></a></div>
+        </div>
+    </div>
+</div>

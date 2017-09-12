@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://360fenxi.mediav.com/mv.html -->
+<html><head><meta charset="utf-8">
+    
+    <title>
+       mv
+    </title>
+    </head>
+    <body>
+    <script type="text/javascript">
+        function trim(str) {
+            return str.replace(/^\s*|\s*$/g, '');
+        }
+        function getCookie(){
+            try {
+                var ctn  = "",
+                    osr  = "",
+                    v    = "",
+                    matchGroup,
+                    _mvctnReg = new RegExp("(^| )" + '_mvctn' + window.name  + "=([^;]*)(;|$)"),
+                    _v = new RegExp("(^| )" + "v" + "=([^;]*)(;|$)"),
+                    osrReg = /osr=(.*?)&/;
+                    if( matchGroup = document.cookie.match(_mvctnReg)){
+                        ctn = unescape(matchGroup[0]);
+                        ctn = trim(ctn);
+                        osr = ctn.match(osrReg)[1];
+                    }
+
+                    if( matchGroup = document.cookie.match(_v)){
+                        v = unescape( matchGroup[2]);
+                    }
+
+
+                    if( v !==  ""){
+                        return osr + ","  + v + "," + ctn;
+                    } else {
+                        return "";
+                    }
+
+                } catch(e) {
+                    return "";
+                }
+        }
+
+        function sendMessage(data){
+            var supportPostMessage = 'postMessage' in window;
+
+            if( supportPostMessage ){
+               window.parent.postMessage(data,'*');
+            } else {
+                var postMessage = window.navigator['_qha_message'];
+                if( typeof postMessage === 'function' ){
+                    postMessage(data);
+                } else {
+                    throw new Error("postMessage is not a function");
+                }
+            }
+        }
+
+        var val = getCookie();
+        if(val !== "")
+            sendMessage(val);
+    </script>
+    
+
+</body></html>

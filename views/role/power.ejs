@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <%- include ../component/meta.ejs %>
+    <title>功能库</title>
+    <style>
+        .word_warp{
+            word-wrap: break-word;
+        }
+        .wrapper .panel-li {
+            float: initial;
+        }
+        .left-header{
+            border-radius:3px;
+            padding:5px 0;
+        }
+        .left-header li a {
+            color: #7a7676;
+        }
+        @media screen and (max-width:1030px) and (min-width:800px) {
+            #leftsection {
+                width: 100%;
+            }
+            #rightsection {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <%- include ../component/left_side.ejs %>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <%- include ../component/header_section.ejs %>
+        <!-- header section end-->
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">权限管理</a>
+                </li>
+                <li>
+                    <a href="/role/list">角色列表</a>
+                </li>
+                <li class="active">
+                    功能库
+                </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="clearfix">
+                        <section class="col-sm-3" id="leftsection">
+                            <header class="custom-tab left-header">
+                                <ul class="nav nav-tabs left_ul">
+                                    <% for (var i = 0;i<platforms.length;i++){%>
+                                    <li class="panel-li <%if(platform==platforms[i].platform){%> active<%}%>" data-type="<%= platforms[i].platform%>">
+                                        <a href="#about2" data-toggle="tab">
+                                            <% for (var j = 0;j<platformsName.length;j++){
+                                            if(platformsName[j].platformName!='计费系统'){
+                                            if(platformsName[j].platform==platforms[i].platform){%>
+                                            <%= platformsName[j].platformName%>
+                                            <%}}}%>
+                                        </a>
+                                    </li>
+                                    <%}%>
+                                </ul>
+                            </header>
+                        </section>
+
+
+                        <section class="panel col-sm-9 clearfix" id="rightsection">
+                            <div class="panel-body ">
+                                <form action="" method="post">
+                                    <section id="no-more-tables">
+                                        <table class="table table-bordered table-striped table-condensed cf">
+                                            <thead class="cf">
+                                            <tr class="text-center">
+                                                <th class="text-center">权限Id</th>
+                                                <th class="text-center">名字</th>
+                                                <th class="text-center">跳转地址</th>
+                                                <th class="text-center">模块名字</th>
+                                                <th class="text-center">图标</th>
+                                                <!--<th class="text-center">操作者</th>-->
+                                                <th class="text-center">创建时间</th>
+                                                <th class="text-center">权限类型</th>
+                                                <th class="text-center">平台系统</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <% for (var i = 0; i < rows.length; i++){ %>
+                                            <tr class="text-center">
+                                                <td class="text-center" data-title="权限Id"><%= rows[i].id %></td>
+                                                <td class="text-center" data-title="名字"><%= rows[i].name %></td>
+                                                <td class="word_warp text-center" data-title="跳转地址"><%= rows[i].url %></td>
+                                                <td class="text-center" data-title="模块名字"><%= rows[i].module %></td>
+                                                <td class="text-center" data-title="图标"><%= rows[i].icon %></td>
+                                                <td class="text-center" data-title="操作者" style="display: none"><%= rows[i].operator %></td>
+                                                <td class="text-center" data-title="创建时间"><%= rows[i].ctime ? moment(rows[i].ctime).format('YYYY-MM-DD HH:mm:ss') : '' %></td>
+                                                <td class="text-center" data-title="权限类型">
+                                                    <% if(rows[i].type==1) {%>
+                                                    <span>功能权限</span>
+                                                    <%}else if(rows[i].type==0) {%>
+                                                    <span>数据权限</span>
+                                                    <%}%>
+                                                </td>
+                                                <td data-title="平台系统" class="platform text-center"><%= rows[i].platform %></td>
+                                            </tr>
+                                            <% } %>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                </form>
+                            </div>
+                        </section>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <%- include ../component/footer.ejs %>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+<%- include ../component/bottom.ejs %>
+<script>
+    $(function () {
+        //点击tab栏
+        $('.left_ul li').click(function () {
+            var platform = $(this).data('type');
+            window.location.href='/role/power?platform='+platform;
+        })
+    })
+</script>
+</body>
+</html>

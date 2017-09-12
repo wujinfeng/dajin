@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <%- include ../component/meta.ejs %>
+    <title>批量添加</title>
+    <style>
+        .addBody{
+            height: 200px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .addHeader{
+            font-size: 16px;
+            text-align: center;
+        }
+        #file{
+            position: relative;
+            opacity:0;
+            color: #000;
+            outline:none;
+            filter:alpha(opacity=0);
+            z-index:2;
+            font: 700 16px 'microsoft yahei';
+        }
+       /* #sp{
+            line-height: 26px;
+            color:#fff;
+            position: absolute;
+            z-index: 1;
+            width: 86px;
+            height: 26px;
+            background-color: #f0ad4e;
+            border-radius: 4px;
+            top: 106px;
+            left: 28px;
+        }*/
+        #dv{
+            flex:1;
+            padding:0 20px 0 20px;
+            overflow: hidden;
+            border-radius: 4px;
+            width: 70%;
+            height: 26px;
+            position: absolute;
+            background-color:#f0ad4e;
+            top: 106px;
+            left: 50%;
+            margin-left:-35%;
+            color:#fff;
+            line-height: 26px;
+        }
+        .form-group{
+            display: flex;
+        }
+    </style>
+
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <%- include ../component/left_side.ejs %>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <%- include ../component/header_section.ejs %>
+        <!-- header section end-->
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">成员管理</a>
+                </li>
+                <li>
+                    <a href="/member/list">成员列表</a>
+                </li>
+                <li>
+                    <a href="#">批量添加</a>
+                </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row" style="font-size: 16px;">
+                <div class="col-sm-4">
+                    <section class="panel panel-default">
+                        <header class="panel-heading addHeader">
+                            第一步
+                        </header>
+                        <div class="panel-body addBody">
+                            <br>
+                            <br>
+                            请下载导入模板
+                            <br>
+                            <br>
+                            <a  href="/member/down" class="btn btn-warning">下载</a>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-sm-4">
+                    <section class="panel panel-default">
+                        <header class="panel-heading addHeader">
+                            第二步
+                        </header>
+                        <div class="panel-body addBody">
+                            <br>
+                            <br>
+                            请将员工数据整理到刚下载的模板内
+                        </div>
+                    </section>
+                </div>
+                <div class="col-sm-4">
+                    <section class="panel panel-default">
+                        <header class="panel-heading addHeader">
+                            第三步
+                        </header>
+                        <div class="panel-body addBody">
+                            <br>
+                            <br>
+                            <form class="upload-form" action="/member/addExcel" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="file" id="file" name="file" ><div id="dv">请选择文件</div>
+                                </div>
+                                <button type="submit" class="btn btn-warning upload" disabled>上传</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="col-sm-12">
+                    <% if(info){%>
+                    <div class="alert alert-<%=message%> fade in"><%=info%></div>
+                    <%}%>
+                </div>
+
+            </div>
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <%- include ../component/footer.ejs %>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+<%- include ../component/bottom.ejs %>
+
+<script>
+    $(function () {
+        $('#file').change(function () {
+            var file = $('#file').val();
+            if(file){
+                var fileName =file;
+                $('#dv').text(fileName);
+                $('.upload').removeAttr('disabled');
+            }else{
+                $('.upload').attr('disabled',true);
+                $('#dv').text('请选择文件');
+            }
+        })
+        //点击上传按钮
+        $('.upload').click(function () {
+            if(!$('#file').val()){
+                return false;
+            }
+        });
+    })
+</script>
+</body>
+</html>

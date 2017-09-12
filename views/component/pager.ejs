@@ -1,0 +1,91 @@
+<% var beginPage = 1, endPage = +pager.total;
+
+if(pager.no>3){
+    beginPage = +pager.no - 2;
+    if((+pager.no) <= pager.total-2){
+        endPage = pager.no-0+2;
+    }else{
+        endPage = +pager.total;
+        if((+pager.total) >= 5){
+            beginPage = pager.total-4;
+        }else{
+            beginPage = 1;
+        }
+    }
+}else{
+    beginPage = 1;
+    if((+pager.total)>=5){
+        endPage = 5;
+    }else{
+        endPage = +pager.total;
+    }
+}
+
+%>
+
+<input type="hidden" name="pageNo" value="<%= pager.no %>"/>
+<nav class="pull-right">
+    <p class="navigation totalPage">共<span><%= pager.count? pager.count:'0' %></span>条</p>
+    <ul class="pagination">
+        <!--新增首页-->
+        <% if((+pager.total) == 0 || (+pager.no) ==1){ %>
+        <li class="disabled">
+            <a href="#">首页</a>
+        </li>
+        <% }else{ %>
+        <li>
+            <a href="#" class="pageTab" data-page="1">首页</a>
+        </li>
+        <% } %>
+        <!--前翻页-->
+        <% if((+pager.no) == 1){ %>
+        <li class="disabled">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <% } %>
+        <% if( (+pager.no)>1){ %>
+        <li id="forward">
+            <!--<span class="forward_words">前5页</span>-->
+            <a href="#" class="pageTab" data-page="<%= +pager.no - 1 %>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <% } %>
+        <!--中间页-->
+        <% for(var i = beginPage; i <= endPage;i++) {
+        if(i == pager.no){ %>
+        <li class="active"><a href="#"><%= i %></a></li>
+        <% }else{ %>
+        <li><a href="#" class="pageTab" data-page="<%= i %>"><%= i %></a></li>
+        <% } %>
+        <% } %>
+        <!--后翻页-->
+        <% if(Number(pager.no) >= (+pager.total)){ %>
+        <li class="disabled">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <% } %>
+        <% if((+pager.no) < (+pager.total)){ %>
+        <li id="backwards">
+            <!--<span class="backwards_words">后5页</span>-->
+            <a href="#" class="pageTab" data-page="<%= +pager.no + 1 %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <% } %>
+        <!--新增尾页-->
+        <% if((+pager.total) == 0 || (+pager.no) == (+pager.total)){ %>
+        <li class="disabled">
+            <a href="#">尾页</a>
+        </li>
+        <% }else{ %>
+        <li>
+            <a href="#" class="pageTab" data-page="<%= pager.total %>">尾页</a>
+        </li>
+        <% } %>
+    </ul>
+</nav>

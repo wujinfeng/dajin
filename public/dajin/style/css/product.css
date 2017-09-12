@@ -1,0 +1,33 @@
+.alert-inside{
+    display: none;
+    margin:20px;
+}
+.alert-inside .alert-title{ text-align:center; }
+.alert-inside table{
+    font-size:11px;
+    color:#333;
+    border:1px solid #666;
+    border-collapse: collapse;
+}
+.alert-inside th{
+    border:1px solid #666;
+    padding: 4px;
+    background-color: #dedede;
+}
+.alert-inside td{
+    border:1px solid #666;
+    padding: 3px;
+    background-color: #fff;
+}
+.panel-title{
+    height:36px;
+    line-height:36px;
+    font-size:18px;
+    font-weight:bold;
+}
+.open .dh{
+    display: block;
+}
+.close .dh{
+    display: none;
+}

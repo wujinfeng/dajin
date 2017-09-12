@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <%- include ../component/meta.ejs %>
+    <title>成员列表</title>
+    <style>
+        .panel-heading {
+            overflow: hidden;
+        }
+
+        .control-div {
+            margin-bottom: 10px;
+        }
+
+        .page-heading .breadcrumb li.active a {
+            color: #65CEA7;
+        }
+
+        @media screen and (min-width: 1200px) {
+            .panel-heading .control-div {
+                width: 15%;
+                display: inline-block;
+            }
+
+            .search-div {
+                margin-left: 200px;
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            .panel-heading .control-div {
+                width: 30%;
+                display: inline-block;
+            }
+        }
+
+        @media screen and (max-width: 510px) {
+            .panel-heading .control-div {
+                width: 60%;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <%- include ../component/left_side.ejs %>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <%- include ../component/header_section.ejs %>
+        <!-- header section end-->
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">成员管理</a>
+                </li>
+                <li class="active">
+                    <a href="/member/list">成员列表</a>
+                </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form action="/member/list" method="post">
+                        <input type="hidden" name="status" value="">
+                        <section class="panel">
+                            <header class="panel-heading clearfix">
+                                <div class="btn-group control-div ">
+                                    <a class="btn btn-success" href="/member/add" type="button">成员添加</a>
+                                    <a class="btn btn-success" href="/member/addExcel" type="button">批量添加</a>
+                                </div>
+                                <div class="btn-group control-div ">
+                                    <button class="btn btn-danger  delete" type="button">删除</button>
+                                    <button class="btn btn-danger batchLeave" type="button">离职</button>
+                                </div>
+                                <div class="btn-group control-div">
+                                    <button type="button"
+                                            class="btn-status btn <%= (status == '') ? 'btn-primary' : 'btn-default' %>"
+                                            data-status=''>全部
+                                    </button>
+                                    <button type="button"
+                                            class="btn-status btn <%= (status == 1) ? 'btn-primary' : 'btn-default' %>"
+                                            data-status=1>启用
+                                    </button>
+                                    <button type="button"
+                                            class="btn-status btn <%= (status == 2) ? 'btn-primary' : 'btn-default' %>"
+                                            data-status=2>禁用
+                                    </button>
+                                </div>
+                                <div class="btn-group control-div">
+                                    <select class="select-group form-control" id="companySelect" name="company_code">
+                                        <option value=""
+                                                <% if(company_code == ''){ %>
+                                                selected
+                                                <% } %>
+                                        >全部公司
+                                        </option>
+                                        <% for (var i = 0; i < companyArray.length; i++){ %>
+                                        <option value="<%= companyArray[i].id %>"
+                                                <% if(company_code == companyArray[i].id) { %>
+                                                selected
+                                                <% } %>
+                                        ><%= companyArray[i].name %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="btn-group control-div search-div">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control col-xs-2" id="searchKey" name="searchKey"
+                                               maxlength="20" value="<%= searchKey %>" placeholder="姓名、手机号">
+                                        <span class="input-group-btn">
+                                            <button type="button" id="searchBtn" class="btn btn-default"><i
+                                                        class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </header>
+                            <div class="panel-body">
+                                <section id="no-more-tables">
+                                    <table class="table table-bordered table-hover table-striped table-condensed cf">
+                                        <thead class="cf">
+                                        <tr>
+                                            <th class="text-center"><input type="checkbox" class="all-item"></th>
+                                            <th class="text-center">姓名</th>
+                                            <th class="text-center">归属公司</th>
+                                            <th class="text-center">用户类型</th>
+                                            <th class="text-center">职务</th>
+                                            <th class="text-center">手机号</th>
+                                            <th class="text-center">角色</th>
+                                            <th class="text-center">状态</th>
+                                            <th class="text-center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <% for (var i = 0; i < rows.length; i++){ %>
+                                        <tr class="text-center">
+                                            <% if(rows[i].mobile != '11000000000'){ %>
+                                            <td><input name="item" type="checkbox" value="<%= rows[i].id %>"></td>
+                                            <% }else{ %>
+                                            <td></td>
+                                            <% } %>
+                                            <td data-title="姓名"><%= rows[i].realname %></td>
+                                            <td data-title="归属公司"><%= rows[i].companyName %></td>
+                                            <td data-title="用户类型">
+                                                <% if( rows[i].type == 1){ %>
+                                                临时用户
+                                                <% }else if( rows[i].type == 2){ %>
+                                                会员用户
+                                                <% }else if( rows[i].type == 3){ %>
+                                                员工用户
+                                                <% }else if( rows[i].type == 4){ %>
+                                                VIP用户
+                                                <% } %>
+                                            </td>
+                                            <td data-title="职务"><%= rows[i].job %></td>
+                                            <td data-title="手机号"><%= rows[i].mobile %></td>
+                                            <td data-title="角色"><%= rows[i].roleName %></td>
+                                            <td data-title="状态">
+                                                <% if(rows[i].status == 2){ %>
+                                                禁用
+                                                <% }else if(rows[i].status == 1){ %>
+                                                启用
+                                                <% } %>
+                                            </td>
+                                            <td data-title="操作">
+                                                <% if(rows[i].status == 1){ %>
+                                                <a class="btn btn-info btn-xs "
+                                                   href="/member/detail?id=<%= rows[i].id %>">详情</a>
+                                                <% if(rows[i].mobile != '11000000000'){ %>
+                                                <a class="btn btn-success btn-xs "
+                                                   href="/member/edit?id=<%= rows[i].id %>">编辑</a>
+                                                <button class="btn btn-danger btn-xs leave" data-id="<%= rows[i].id %>"
+                                                        type="button">离职
+                                                </button>
+                                                <% } %>
+                                                <% } else { %>
+                                                <a class="btn btn-info btn-xs "
+                                                   href="/member/detail?id=<%= rows[i].id %>">详情</a>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                </section>
+                                <%- include ../component/pager.ejs %>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <%- include ../component/footer.ejs %>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+<%- include ../component/bottom.ejs %>
+<script>
+
+    //查询通过状态
+    $('.btn-status').click(function () {
+        var _form = $(this).closest('form');
+        _form.find('input[name="status"]').val($(this).attr('data-status'));
+        _form.find('input[name=pageNo]').val(1);
+        _form.submit();
+    });
+
+    //分页
+    $("nav .pageTab").click(function () {
+        var _form = $(this).closest('form');
+        _form.find('input[name="status"]').val($('.btn-status').filter('.btn-primary').attr('data-status'));
+        _form.find('input[name=pageNo]').val($(this).attr('data-page'));
+        _form.submit();
+    });
+
+    $('.all-item').click(function () {
+        if ($(this).is(':checked')) {
+            $('input[name="item"]').prop("checked", true);
+        } else {
+            $('input[name="item"]').prop("checked", false);
+        }
+    })
+
+    // 离职
+    $('.leave').click(function () {
+        var id = $(this).attr('data-id') || '',
+            data = {id: id, status: 2},
+            url = '/member/updateStatus';
+        if (!id) {
+            swal("亲，ID不存在！", "", "error");
+            return false;
+        }
+        var text = '离职确认之后暂时不可恢复。是否确认离职？';
+        ajax(url, data, text);
+    });
+
+    //批量离职
+    $('.batchLeave').click(function () {
+        var $item = $('input[name="item"]:checked');
+        var arr = [];
+        $item.each(function () {
+            arr.push($(this).val());
+        });
+
+        var id = arr.join(','),
+            data = {id: id, status: 2},
+            url = '/member/updateStatus';
+        if (!id) {
+            swal("亲，请选择离职项！", "", "error");
+            return false;
+        }
+        var text = '离职确认之后暂时不可恢复。是否确认离职？';
+        ajax(url, data, text);
+    });
+
+    //删除
+    $('.delete').click(function () {
+        var $item = $('input[name="item"]:checked');
+        var arr = [];
+        $item.each(function () {
+            arr.push($(this).val());
+        });
+
+        var id = arr.join(','),
+            url = '/member/delete';
+        if (!id) {
+            swal("亲，请选择删除项！", "", "error");
+            return false;
+        }
+        var text = '删除功能用来删除录入错误的成员，有过工作内容的成员，请选择离职。是否确认删除？';
+        ajax(url, {id: id}, text);
+    });
+
+    //发送ajax
+    function ajax(url, data, text) {
+        swal({
+                title: "确定提交吗？",
+                text: text || '',
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+            },
+            function () {
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: 'post',
+                    async: true,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.status == 200) {
+                            swal("修改成功！", "Good :) 1秒后自动刷新", "success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1200)
+                        } else {
+                            swal("修改出错！", result.msg , "error");
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        swal("修改出错！", textStatus || errorThrown , "error");
+                    }
+                });
+            });
+    }
+
+    //点击查询
+    $("#searchBtn").click(function () {
+        var _form = $(this).closest('form');
+        _form.find('input[name=pageNo]').val(1);
+        _form.submit();
+    });
+
+    //公司改变
+    $('#companySelect').change(function (e) {
+        var _form = $(this).closest('form');
+        _form.find('input[name=pageNo]').val(1);
+        _form.submit();
+    })
+</script>
+</body>
+</html>
+
